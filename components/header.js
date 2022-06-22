@@ -1,10 +1,6 @@
-class Header extends HTMLElement {
-  constructor() {
-    super();
-  }
+const headerTemplate = document.createElement('template');
 
-  connectedCallback() {
-    this.innerHTML = `
+headerTemplate.innerHTML = `
     <style>
         nav {
           height: 40px;
@@ -41,6 +37,19 @@ class Header extends HTMLElement {
         </nav>
       </header>
     `;
+
+class Header extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    // shadow Dom 만들기
+    // mode : 'open', 'close'
+    // close는 외부 javascript에서 엑세스 할 수 없음 open은 가능
+    const shadowRoot = this.attachShadow({ mode: 'closed' });
+
+    shadowRoot.appendChild(headerTemplate.content);
   }
 }
 

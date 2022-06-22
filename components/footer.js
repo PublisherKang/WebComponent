@@ -1,11 +1,8 @@
-class Footer extends HTMLElement {
-  constructor() {
-    super();
-  }
+const footerTemplate = document.createElement('template');
 
-  connectedCallback() {
-    this.innerHTML = `
-    <style>
+footerTemplate.innerHTML = `
+<style>
+
     footer {
       height: 60px;
       padding: 0 10px;
@@ -47,12 +44,26 @@ class Footer extends HTMLElement {
       <li><a href="contact.html">Contact</a></li>
     </ul>
     <ul class="social-row">
-      <li><a href="#"><i class="fab fa-github"></i></a></li>
-      <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-      <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+      <li><a href="https://github.com/my-github-profile"><i class="fab fa-github"></i></a></li>
+      <li><a href="https://twitter.com/my-twitter-profile"><i class="fab fa-twitter"></i></a></li>
+      <li><a href="https://www.linkedin.com/in/my-linkedin-profile"><i class="fab fa-linkedin"></i></a></li>
     </ul>
   </footer>
-  `;
+`;
+class Footer extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    const fontAwesome = document.querySelector('link[href*="font-awesome"]');
+    const shadowRoot = this.attachShadow({ mode: 'closed' });
+
+    if (fontAwesome) {
+      shadowRoot.appendChild(fontAwesome.cloneNode());
+    }
+
+    shadowRoot.appendChild(footerTemplate.content);
   }
 }
 
